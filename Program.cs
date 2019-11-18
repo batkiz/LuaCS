@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using LuaCS.binchunk;
+using LuaCS.vm;
 
 namespace LuaCS
 {
@@ -67,7 +68,65 @@ namespace LuaCS
                 {
                     line = f.LineInfo[pc].ToString();
                 }
-                Console.Write($"\t{pc + 1}\t[{line}]\t0x{c:x8}\n");
+                // Console.Write($"\t{pc + 1}\t[{line}]\t0x{c:x8}\n"); // chap02
+                var i = new Instruction(c);
+                Console.Write($"\t{pc + 1}\t[{line}]\t{i.OpName():x8} \t");
+                printOperands(i);
+                Console.WriteLine();
+            }
+        }
+
+        private static void printOperands(Instruction i)
+        {
+            int a, b, c, bx, sbx, ax;
+            switch (i.OpMode())
+            {
+                case OpCodes.IABC:
+                    (a, b, c) = i.ABC();
+                    Console.Write(a);
+                    if (i.BMode() != OpCodes.OpArgN)
+                    {
+                        if (b > 0xFF)
+                        {
+                            Console.Write($" {-1 - b & 0xFF}");
+                        }
+                        else
+                        {
+                            Console.Write($" {b}");
+                        }
+                    }
+                    if (i.CMode() != OpCodes.OpArgN)
+                    {
+                        if (c > 0xFF)
+                        {
+                            Console.Write($" {-1 - c & 0xFF}");
+                        }
+                        else
+                        {
+                            Console.Write($" {c}");
+                        }
+                    }
+                    break;
+                case OpCodes.IABx:
+                    (a, bx) = i.ABx();
+                    Console.Write(a);
+                    if (i.BMode() == OpCodes.OpArgK)
+                    {
+                        Console.Write($" {-1 - bx}");
+                    }
+                    else if (i.BMode() == OpCodes.OpArgU)
+                    {
+                        Console.Write($" {bx}");
+                    }
+                    break;
+                case OpCodes.IAsBx:
+                    (a, sbx) = i.AsBx();
+                    Console.Write($"{a} {sbx}");
+                    break;
+                case OpCodes.IAx:
+                    ax = i.Ax();
+                    Console.Write(-1 - ax);
+                    break;
             }
         }
 

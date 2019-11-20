@@ -1,12 +1,64 @@
 ﻿using System;
 using System.IO;
 using LuaCS.binchunk;
+using LuaCS.state;
 using LuaCS.vm;
+using Consts = LuaCS.api.Consts;
 
 namespace LuaCS
 {
     class Program
     {
+        static void Main(string[] args)
+        {
+            var ls = LuaState.New();
+
+            ls.PushBoolean(true);
+            printStack(ls);
+            ls.PushInteger(10);
+            printStack(ls);
+            ls.PushNil();
+            printStack(ls);
+            ls.PushString("hello");
+            printStack(ls);
+            ls.PushValue(-4);
+            printStack(ls);
+            ls.Replace(3);
+            printStack(ls);
+            ls.SetTop(6);
+            printStack(ls);
+            ls.Remove(-3);
+            printStack(ls);
+            ls.SetTop(-5);
+            printStack(ls);
+        }
+
+        internal static void printStack(LuaState ls)
+        {
+            var top = ls.GetTop();
+            for (int i = 1; i <= top; i++)
+            {
+                var t = ls.Type(i);
+                switch (t)
+                {
+                    case Consts.LUA_TBOOLEAN:
+                        Console.Write($"[{ls.ToBoolean(i)}]");
+                        break;
+                    case Consts.LUA_TNUMBER:
+                        Console.Write($"[{ls.ToNumber(i)}]");
+                        break;
+                    case Consts.LUA_TSTRING:
+                        Console.Write($"[{ls.ToString(i)}]");
+                        break;
+                    default:
+                        Console.Write($"[{ls.TypeName(t)}]");
+                        break;
+                }
+            }
+            Console.WriteLine();
+        }
+
+        /* chap02 & chap03
         static void Main(string[] args)
         {
             if (args.Length <= 0) return;
@@ -172,5 +224,6 @@ namespace LuaCS
         {
             return f.UpvalueNames.Length > 0 ? f.UpvalueNames[idx] : "-";
         }
+        */
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LuaCS.vm
+﻿namespace LuaCS.vm
 {
     public static class OpCodes
     {
@@ -126,20 +122,14 @@ namespace LuaCS.vm
         internal byte opMode;
         internal string name;
 
-        public opcode(byte testFlag,
-                      byte aFlag,
-                      byte argBMode,
-                      byte argCMode,
-                      byte opMode,
-                      string name)
+        public opcode(byte TestFlag, byte aFlag, byte ArgBMode, byte ArgCMode, byte OpMode, string Name)
         {
-            this.testFlag = testFlag;
+            testFlag = TestFlag;
             setAFlag = aFlag;
-            this.argBMode = argBMode;
-            this.argCMode = argCMode;
-            this.opMode = opMode;
-            this.name = name;
-
+            argBMode = ArgBMode;
+            argCMode = ArgCMode;
+            opMode = OpMode;
+            name = Name;
         }
     }
 

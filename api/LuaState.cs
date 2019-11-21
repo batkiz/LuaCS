@@ -1,4 +1,6 @@
-﻿using LuaType = System.Int32;
+﻿using ArithOp = System.Int32;
+using CompareOp = System.Int32;
+using LuaType = System.Int32;
 
 namespace LuaCS.api
 {
@@ -41,5 +43,10 @@ namespace LuaCS.api
         void PushInteger(long n);
         void PushNumber(double n);
         void PushString(string s);
+
+        void Arith(ArithOp op);
+        bool Compare(int idx1, int idx2, CompareOp op);
+        void Len(int idx);
+        void Contact(int n);
     }
 }

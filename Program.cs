@@ -12,6 +12,28 @@ namespace LuaCS
         static void Main(string[] args)
         {
             var ls = LuaState.New();
+            ls.PushInteger(1);
+            ls.PushString("2.0");
+            ls.PushString("3.0");
+            ls.PushNumber(4.0);
+            printStack(ls);
+
+            ls.Arith(Consts.LUA_OPADD);
+            printStack(ls);
+            ls.Arith(Consts.LUA_OPBNOT);
+            printStack(ls);
+            ls.Len(2);
+            printStack(ls);
+            ls.Contact(3);
+            printStack(ls);
+            ls.PushBoolean(ls.Compare(1, 2, Consts.LUA_OPEQ));
+            printStack(ls);
+        }
+
+        /* chap 04
+        static void Main(string[] args)
+        {
+            var ls = LuaState.New();
 
             ls.PushBoolean(true);
             printStack(ls);
@@ -32,6 +54,7 @@ namespace LuaCS
             ls.SetTop(-5);
             printStack(ls);
         }
+        */
 
         internal static void printStack(LuaState ls)
         {
@@ -48,7 +71,7 @@ namespace LuaCS
                         Console.Write($"[{ls.ToNumber(i)}]");
                         break;
                     case Consts.LUA_TSTRING:
-                        Console.Write($"[{ls.ToString(i)}]");
+                        Console.Write($"[\"{ls.ToString(i)}\"]");
                         break;
                     default:
                         Console.Write($"[{ls.TypeName(t)}]");
@@ -57,6 +80,7 @@ namespace LuaCS
             }
             Console.WriteLine();
         }
+
 
         /* chap02 & chap03
         static void Main(string[] args)

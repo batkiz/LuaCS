@@ -61,12 +61,7 @@ namespace LuaCS.state
         public (double, bool) ToNumberX(int idx)
         {
             var val = stack.get(idx);
-            return val.value.GetType().Name switch
-            {
-                "Double" => (Convert.ToDouble(val.value), true),
-                "Int64" => (Convert.ToDouble(val.value), true),
-                _ => (0, false)
-            };
+            return LuaValue.convertToFloat(val);
         }
 
         public double ToNumber(int idx)
@@ -102,7 +97,7 @@ namespace LuaCS.state
         public (long, bool) ToIntegerX(int idx)
         {
             var val = stack.get(idx);
-            return (Convert.ToInt64(val.value), true);
+            return LuaValue.convertToInteger(val);
         }
 
         public (string, bool) ToStringX(int idx)
@@ -116,7 +111,7 @@ namespace LuaCS.state
                 case "Double":
                     var s = val;
                     stack.set(idx, s);
-                    return ((string)s.value, true);
+                    return (s.value.ToString(), true);
                 default:
                     return ("", false);
             }

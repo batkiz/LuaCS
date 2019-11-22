@@ -10,20 +10,16 @@ namespace LuaCS.state
         {
             var a = stack.get(idx1);
             var b = stack.get(idx2);
-            switch (op)
+            return op switch
             {
-                case Consts.LUA_OPEQ:
-                    return _eq(a, b);
-                case Consts.LUA_OPLT:
-                    return _lt(a, b);
-                case Consts.LUA_OPLE:
-                    return _le(a, b);
-                default:
-                    throw new Exception("invalid compare op!");
-            }
+                Consts.LUA_OPEQ => _eq(a, b),
+                Consts.LUA_OPLT => _lt(a, b),
+                Consts.LUA_OPLE => _le(a, b),
+                _ => throw new Exception("invalid compare op!")
+            };
         }
 
-        bool _eq(LuaValue a, LuaValue b)
+        private static bool _eq(LuaValue a, LuaValue b)
         {
             if (a == null)
                 return b == null;
@@ -31,13 +27,13 @@ namespace LuaCS.state
             switch (a.value.GetType().Name)
             {
                 case "Boolean":
-                    if (b.value.GetType() == typeof(bool))
+                    if (b.value is bool)
                     {
                         return a.value == b.value;
                     }
                     return false;
                 case "String":
-                    if (b.value.GetType() == typeof(string))
+                    if (b.value is string)
                     {
                         return a.value.ToString() == b.value.ToString();
                     }
@@ -61,7 +57,7 @@ namespace LuaCS.state
             }
         }
 
-        private bool _lt(LuaValue a, LuaValue b)
+        private static bool _lt(LuaValue a, LuaValue b)
         {
             switch (a.value.GetType().Name)
 
@@ -69,7 +65,7 @@ namespace LuaCS.state
                 case "String":
                     if (b.value is string)
                     {
-                        return string.Compare((string)a.value, (string)b.value) < 0;
+                        return string.CompareOrdinal((string)a.value, (string)b.value) < 0;
                     }
                     throw new Exception("comparison error!");
                 case "Int64":
@@ -91,14 +87,14 @@ namespace LuaCS.state
             }
         }
 
-        private bool _le(LuaValue a, LuaValue b)
+        private static bool _le(LuaValue a, LuaValue b)
         {
             switch (a.value.GetType().Name)
             {
                 case "String":
                     if (b.value is string)
                     {
-                        return string.Compare((string)a.value, (string)b.value) <= 0;
+                        return string.CompareOrdinal((string)a.value, (string)b.value) <= 0;
                     }
                     throw new Exception("comparison error!");
                 case "Int64":

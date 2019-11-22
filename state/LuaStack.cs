@@ -86,7 +86,7 @@ namespace LuaCS.state
         internal bool isValid(int idx)
         {
             var absIdx = absIndex(idx);
-            return absIdx >0&&absIdx<=top;
+            return absIdx > 0 && absIdx <= top;
         }
     }
 }

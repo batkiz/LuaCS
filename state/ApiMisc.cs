@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LuaCS.state
 {
@@ -9,9 +7,8 @@ namespace LuaCS.state
         public void Len(int idx)
         {
             var val = stack.get(idx);
-            if (val.value.GetType() == typeof(string))
+            if (val.value is string s)
             {
-                var s = (string)val.value;
                 stack.push(new LuaValue((long)s.Length));
             }
             else
@@ -28,7 +25,7 @@ namespace LuaCS.state
             }
             else if (n >= 2)
             {
-                for (int i = 1; i < n; i++)
+                for (var i = 1; i < n; i++)
                 {
                     if (IsString(-1) && IsString(-2))
                     {

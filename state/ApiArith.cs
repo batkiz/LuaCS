@@ -134,8 +134,8 @@ namespace LuaCS.state
 
         public void Arith(ArithOp op)
         {
-            LuaValue a, b;
-            b = stack.pop();
+            LuaValue a;
+            var b = stack.pop();
             if (op != Consts.LUA_OPUNM && op != Consts.LUA_OPBNOT)
             {
                 a = stack.pop();
@@ -175,9 +175,9 @@ namespace LuaCS.state
             {
                 if (op.integerFunc != null)
                 {
-                    if (a.value is long && b.value is long)
+                    if (a.value is long aValue && b.value is long bValue)
                     {
-                        return new LuaValue(op.integerFunc((long)a.value, (long)b.value));
+                        return new LuaValue(op.integerFunc(aValue, bValue));
                     }
                 }
                 var (x, xok) = LuaValue.convertToFloat(a);

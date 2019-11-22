@@ -84,14 +84,14 @@ namespace LuaCS.state
             var n = stack.top - newTop;
             if (n > 0)
             {
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     stack.pop();
                 }
             }
             else if (n < 0)
             {
-                for (int i = 0; i > n; i--)
+                for (var i = 0; i > n; i--)
                 {
                     stack.push(null);
                 }

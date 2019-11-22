@@ -1,5 +1,4 @@
 ﻿using LuaCS.api;
-using System;
 using LuaType = System.Int32;
 
 namespace LuaCS.state
@@ -79,7 +78,7 @@ namespace LuaCS.state
         public bool IsInteger(int idx)
         {
             var val = stack.get(idx);
-            return val.value.GetType() == typeof(long);
+            return val.value is long;
         }
 
         public bool ToBoolean(int idx)

@@ -221,15 +221,15 @@ namespace LuaCS.binchunk
 
         private object readConstant()
         {
-            return (readByte()) switch
+            return readByte() switch
             {
                 BinaryChunk.TAG_NIL => null,
-                BinaryChunk.TAG_BOOLEAN => readByte() != 0,
-                BinaryChunk.TAG_INTEGER => readLuaInteger(),
-                BinaryChunk.TAG_NUMBER => readLuaNumber(),
-                BinaryChunk.TAG_SHORT_STR => readString(),
-                BinaryChunk.TAG_LONG_STR => readString(),
-                _ => throw new Exception("corrupted!"),
+                BinaryChunk.TAG_BOOLEAN => (readByte() != 0) as object,
+                BinaryChunk.TAG_INTEGER => readLuaInteger() as object,
+                BinaryChunk.TAG_NUMBER => readLuaNumber() as object,
+                BinaryChunk.TAG_SHORT_STR => readString() as object,
+                BinaryChunk.TAG_LONG_STR => readString() as object,
+                _ => throw new Exception("corrupted!")
             };
         }
 

@@ -20,14 +20,14 @@ namespace LuaCS.state
                 return Consts.LUA_TNIL;
             }
 
-            switch (val.value.GetType().Name)
+            return val.value.GetType().Name switch
             {
-                case "Boolean": return Consts.LUA_TBOOLEAN;
-                case "Int64": return Consts.LUA_TNUMBER;
-                case "Double": return Consts.LUA_TNUMBER;
-                case "String": return Consts.LUA_TSTRING;
-                default: throw new Exception("todo!");
-            }
+                "Boolean" => Consts.LUA_TBOOLEAN,
+                "Int64" => Consts.LUA_TNUMBER,
+                "Double" => Consts.LUA_TNUMBER,
+                "String" => Consts.LUA_TSTRING,
+                _ => throw new Exception("todo!")
+            };
         }
 
         internal static bool convertToBoolean(LuaValue val)
